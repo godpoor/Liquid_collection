@@ -26,6 +26,7 @@ plt.figure()
 plt.imshow(norm_data,cmap='gray',vmin=0,vmax=100)
 # 关闭坐标轴
 plt.axis('off')
+
 # 保存图像为PNG格式
 plt.savefig('output_image.png', bbox_inches='tight')
 # img = Image.fromarray(img)
