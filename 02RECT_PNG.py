@@ -2,7 +2,8 @@
 import cv2
 global filtered_bboxs
 # 将第一步的output值进行边缘检测并保存 检测的结果
-file = "output_image.png"
+file = "other/BTSTO_176.png"
+# file = "output_image.png"
 image = cv2.imread(file)
 
 gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
