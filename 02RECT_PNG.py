@@ -1,7 +1,7 @@
-# 讲一个正常的图像进行边缘检测，目前已经实现边缘检测以及保存png图像，还比较客观
+# 讲一个正常的图像进行边缘检测，目前已经实现边缘检测以及保存png图像，比较具有参考意义
 import cv2
 global filtered_bboxs
-# file = "other/BTSTO_176.png"
+# 将第一步的output值进行边缘检测并保存 检测的结果
 file = "output_image.png"
 image = cv2.imread(file)
 
