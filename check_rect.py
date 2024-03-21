@@ -1,5 +1,6 @@
 import sys
 
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QMainWindow, QLabel, QLineEdit, QApplication, QPushButton
 
@@ -18,68 +19,82 @@ class MyWindow(QMainWindow):
         self.resize(850, 650)
         self.center()
 
-        self.lepic = QLineEdit(self)
-        self.lepic.setGeometry(740, 530, 60, 30)  # 设置大小
-        self.lepic.setStyleSheet("background-color: gray")  # 设置背景色
-        self.lepic.setText("pic")  # 设置默认文本
 
-        self.lex = QLineEdit(self)
-        self.lex.setGeometry(100, 600, 40, 30)  # 设置大小
-        self.lex.setStyleSheet("background-color: gray")  # 设置背景色
-        self.lex.setText("X")  # 设置默认文本
-
-        self.ley = QLineEdit(self)
-        self.ley.setGeometry(180, 600, 40, 30)  # 设置大小
-        self.ley.setStyleSheet("background-color: gray")  # 设置背景色
-        self.ley.setText("y")  # 设置默认文本
-
-        self.lew = QLineEdit(self)
-        self.lew.setGeometry(270, 600, 40, 30)  # 设置大小
-        self.lew.setStyleSheet("background-color: gray")  # 设置背景色
-        self.lew.setText("w")  # 设置默认文本
-
-        self.leh = QLineEdit(self)
-        self.leh.setGeometry(340, 600, 40, 30)  # 设置大小
-        self.leh.setStyleSheet("background-color: gray")  # 设置背景色
-        self.leh.setText("h")  # 设置默认文本
 
         piclabel = QLabel("Pic：", self)
-        piclabel.setGeometry(700, 520, 200, 50)
+        piclabel.setGeometry(650, 520, 70, 50)
         font = piclabel.font()
         font.setPointSize(20)
         piclabel.setFont(font)
         piclabel.setStyleSheet("color: #555555;")
 
         RIOlabel = QLabel("RIO：", self)
-        RIOlabel.setGeometry(30, 570, 400, 50)
+        RIOlabel.setGeometry(30, 550, 60, 50)
         font = RIOlabel.font()
         font.setPointSize(20)
         RIOlabel.setFont(font)
         RIOlabel.setStyleSheet("color: #555555;")
 
-        RIOlabel = QLabel("X：", self)
-        RIOlabel.setGeometry(80, 590, 400, 50)
+        RIOlabel = QLabel("X:", self)
+        RIOlabel.setGeometry(30, 590, 30, 50)
         font = RIOlabel.font()
         font.setPointSize(20)
         RIOlabel.setFont(font)
 
-        RIOlabel = QLabel("Y：", self)
-        RIOlabel.setGeometry(160, 590, 400, 50)
+        RIOlabel = QLabel("Y:", self)
+        RIOlabel.setGeometry(130, 590, 30, 50)
         font = RIOlabel.font()
         font.setPointSize(20)
         RIOlabel.setFont(font)
 
-        RIOlabel = QLabel("W：", self)
-        RIOlabel.setGeometry(240, 590, 20, 50)
+        RIOlabel = QLabel("W:", self)
+        RIOlabel.setGeometry(230, 590, 35, 50)
         font = RIOlabel.font()
         font.setPointSize(20)
         RIOlabel.setFont(font)
 
-        RIOlabel = QLabel("H：", self)
-        RIOlabel.setGeometry(320, 590, 400, 50)
+        RIOlabel = QLabel("H:", self)
+        RIOlabel.setGeometry(340, 590, 30, 50)
         font = RIOlabel.font()
         font.setPointSize(20)
         RIOlabel.setFont(font)
+
+        tollabel = QLabel("/tol", self)
+        tollabel.setGeometry(770, 520, 60, 50)
+        font = tollabel.font()
+        font.setPointSize(20)
+        tollabel.setFont(font)
+        tollabel.setStyleSheet("color: #555555;")
+
+        self.lepic = QLineEdit(self)
+        self.lepic.setGeometry(700, 530, 60, 30)  # 设置大小
+        self.lepic.setStyleSheet("border-radius: 10px;background-color: #D3D3D3")  # 设置背景色
+        self.lepic.setText("pic")  # 设置默认文本
+        self.lepic.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.lex = QLineEdit(self)
+        self.lex.setGeometry(70, 600, 40, 30)  # 设置大小
+        self.lex.setStyleSheet("border-radius: 10px;background-color: #D3D3D3")  # 设置背景色
+        self.lex.setText("X")  # 设置默认文本
+        self.lex.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.ley = QLineEdit(self)
+        self.ley.setGeometry(170, 600, 40, 30)  # 设置大小
+        self.ley.setStyleSheet("border-radius: 10px;background-color: #D3D3D3")  # 设置背景色
+        self.ley.setText("Y")  # 设置默认文本
+        self.ley.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.lew = QLineEdit(self)
+        self.lew.setGeometry(270, 600, 40, 30)  # 设置大小
+        self.lew.setStyleSheet("border-radius: 10px;background-color: #D3D3D3")  # 设置背景色
+        self.lew.setText("W")  # 设置默认文本
+        self.lew.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.leh = QLineEdit(self)
+        self.leh.setGeometry(380, 600, 40, 30)  # 设置大小
+        self.leh.setStyleSheet("border-radius: 10px;background-color: #D3D3D3")  # 设置背景色
+        self.leh.setText("H")  # 设置默认文本
+        self.leh.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         leftbutton = QPushButton(self)
         leftbutton.setGeometry(340, 550, 50, 40)
@@ -111,7 +126,8 @@ class MyWindow(QMainWindow):
         quitbutton = QPushButton(self)
         quitbutton.setGeometry(600, 590, 100, 50)
         quitbutton.setText("quit")
-        quitbutton.clicked.connect(self.quitClicked)
+        quitbutton.clicked.connect(QApplication.instance().quit)
+        # quitbutton.clicked.connect(self.quitClicked)
         quitbutton.setStyleSheet("QPushButton {border-radius: 10px; border: 2px solid #CCCCCC;}")
 
 
@@ -133,8 +149,8 @@ class MyWindow(QMainWindow):
     def confirmClicked(self):
         print("confirm")
 
-    def quitClicked(self):
-        print("quit")
+    # def quitClicked(self):
+    #     print("quit")
 def main():
 
     app = QApplication(sys.argv)
