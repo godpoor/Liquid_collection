@@ -1,5 +1,6 @@
 # 讲一个正常的图像进行边缘检测，目前已经实现边缘检测以及保存png图像，比较具有参考意义
 import cv2
+
 global filtered_bboxs
 # 将第一步的output值进行边缘检测并保存 检测的结果
 file = "other/BTSTO_176.png"
@@ -11,6 +12,7 @@ gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 _, threshold_image = cv2.threshold(gray_image, 40, 255, cv2.THRESH_BINARY)
 contours, _ = cv2.findContours(threshold_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 contour_image = image.copy()
+
 # 使用矩形显示
 bboxs = [cv2.boundingRect(cnt) for cnt in contours]
 
