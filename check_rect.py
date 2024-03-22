@@ -1,10 +1,15 @@
+"""
+Author: Pro Good
+Emial: godpoor@163.com
+"""
+
 import sys
-
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QMainWindow, QLabel, QLineEdit, QApplication, QPushButton
-
-
+from PyQt6.QtGui import QIcon, QPixmap, QPainter
+from PyQt6.QtWidgets import QMainWindow, QLabel, QLineEdit, QApplication, QPushButton, QGraphicsView, QWidget,QGraphicsScene
+import warnings
+# 忽略特定类型的 DeprecationWarning
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 class MyWindow(QMainWindow):
 
     def __init__(self):
@@ -12,21 +17,35 @@ class MyWindow(QMainWindow):
 
         self.initUI()
 
-
     def initUI(self):
         self.setWindowTitle("Button Window")
         self.setGeometry(100, 100, 400, 300)
         self.resize(850, 650)
         self.center()
 
+        self.widget = QWidget()
+        self.setCentralWidget(self.widget)
 
+        # 添加QGraphicsView来显示图像
+        self.graphicsView = CustomGraphicsView(self.widget)
+        self.scene = QGraphicsScene(self)
 
-        piclabel = QLabel("Pic：", self)
-        piclabel.setGeometry(650, 520, 70, 50)
-        font = piclabel.font()
+        self.pixmap = QPixmap("contours.png")
+        self.scene.addPixmap(self.pixmap)
+
+        self.graphicsView.setScene(self.scene)
+        self.graphicsView.setGeometry(10, 10, 830, 500)
+
+        # 显示鼠标位置的标签
+        self.label = QLabel("Pixel Pos: (0, 0)", self.widget)
+        self.label.setGeometry(15, 330, 200, 400)
+
+        pictlabel = QLabel("Pic：", self)
+        pictlabel.setGeometry(650, 520, 70, 50)
+        font = pictlabel.font()
         font.setPointSize(20)
-        piclabel.setFont(font)
-        piclabel.setStyleSheet("color: #555555;")
+        pictlabel.setFont(font)
+        pictlabel.setStyleSheet("color: #555555;")
 
         RIOlabel = QLabel("RIO：", self)
         RIOlabel.setGeometry(30, 550, 60, 50)
@@ -127,8 +146,9 @@ class MyWindow(QMainWindow):
         quitbutton.setGeometry(600, 590, 100, 50)
         quitbutton.setText("quit")
         quitbutton.clicked.connect(QApplication.instance().quit)
-        # quitbutton.clicked.connect(self.quitClicked)
+
         quitbutton.setStyleSheet("QPushButton {border-radius: 10px; border: 2px solid #CCCCCC;}")
+
 
 
         self.show()
@@ -149,8 +169,46 @@ class MyWindow(QMainWindow):
     def confirmClicked(self):
         print("confirm")
 
-    # def quitClicked(self):
-    #     print("quit")
+class CustomGraphicsView(QGraphicsView):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setDragMode(QGraphicsView.DragMode.ScrollHandDrag)  # 设置为拖动模式
+        self.setRenderHint(QPainter.RenderHint.Antialiasing)
+
+    def wheelEvent(self, event):
+        # Check if Ctrl key is pressed
+        if QApplication.keyboardModifiers() == Qt.KeyboardModifier.ControlModifier:
+            # Scale factor
+            zoomInFactor = 1.25
+            zoomOutFactor = 1 / zoomInFactor
+
+            # Zoom
+            if event.angleDelta().y() > 0:
+                zoomFactor = zoomInFactor
+            else:
+                zoomFactor = zoomOutFactor
+
+            self.scale(zoomFactor, zoomFactor)
+
+    def mouseMoveEvent(self, event):
+        scenePos = self.mapToScene(event.pos())
+        pixmap = self.scene().items()[0]  # 获取场景中的第一个项（这里是pixmap）
+
+        if pixmap.pixmap().rect().contains(event.pos()):
+            self.window().label.setText(
+                f"Pixel Pos: ({int(scenePos.x())}, {int(scenePos.y())})")
+
+        super().mouseMoveEvent(event)
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            self.setDragMode(QGraphicsView.DragMode.ScrollHandDrag)
+            self.setInteractive(True)
+        super().mousePressEvent(event)
+
+    def mouseReleaseEvent(self, event):
+        self.setDragMode(QGraphicsView.DragMode.NoDrag)
+        super().mouseReleaseEvent(event)
 def main():
 
     app = QApplication(sys.argv)
