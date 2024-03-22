@@ -9,7 +9,7 @@ image = cv2.imread(file)
 
 gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 # 利用二值法将图像的边框画出来
-_, threshold_image = cv2.threshold(gray_image, 40, 255, cv2.THRESH_BINARY)
+_, threshold_image = cv2.threshold(gray_image, 30, 255, cv2.THRESH_BINARY)
 contours, _ = cv2.findContours(threshold_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 contour_image = image.copy()
 
@@ -33,7 +33,7 @@ if len(sorted_bboxs) > 1:
 
 for x, y, w, h in filtered_bboxs:
     print("x的值为：", x, "\ty的值为：", y, "\tw的值为：", w, "\th的值为：", h)
-    contour_image = cv2.rectangle(contour_image, (x, y), (x + w, y + h), (255, 0, 0), thickness=2)
+    contour_image = cv2.rectangle(contour_image, (x-5, y-5), (x + w+5, y + h+5), (255, 0, 0), thickness=2)
 # 将对应的带有框框的图像进行保存
 cv2.imwrite('contours.png', contour_image)
 
