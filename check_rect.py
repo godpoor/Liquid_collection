@@ -18,24 +18,21 @@ class MyWindow(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle("Button Window")
+        self.setWindowTitle("Check ROI")
         self.setGeometry(100, 100, 400, 300)
         self.resize(850, 650)
         self.center()
 
+        # 添加可伸缩涂层画布
         self.widget = QWidget()
         self.setCentralWidget(self.widget)
-
         # 添加QGraphicsView来显示图像
         self.graphicsView = CustomGraphicsView(self.widget)
         self.scene = QGraphicsScene(self)
-
         self.pixmap = QPixmap("contours.png")
         self.scene.addPixmap(self.pixmap)
-
         self.graphicsView.setScene(self.scene)
         self.graphicsView.setGeometry(10, 10, 830, 500)
-
         # 显示鼠标位置的标签
         self.label = QLabel("Pixel Pos: (0, 0)", self.widget)
         self.label.setGeometry(15, 330, 200, 400)
@@ -47,7 +44,7 @@ class MyWindow(QMainWindow):
         pictlabel.setFont(font)
         pictlabel.setStyleSheet("color: #555555;")
 
-        RIOlabel = QLabel("RIO：", self)
+        RIOlabel = QLabel("ROI：", self)
         RIOlabel.setGeometry(30, 550, 60, 50)
         font = RIOlabel.font()
         font.setPointSize(20)
@@ -120,21 +117,21 @@ class MyWindow(QMainWindow):
         lefticon = QIcon("pic/left.png")
         leftbutton.setIcon(lefticon)
         leftbutton.clicked.connect(self.leftClicked)
-        leftbutton.setStyleSheet("border-radius: 10px; border: 1px solid ")
+        leftbutton.setStyleSheet("border-radius: 10px; border: 1px solid #706D6C")
 
         playbutton = QPushButton(self)
         playbutton.setGeometry(400, 550, 50, 40)
         playicon = QIcon("pic/play.png")
         playbutton.setIcon(playicon)
         playbutton.clicked.connect(self.playClicked)
-        playbutton.setStyleSheet("border-radius: 10px; border: 1px solid ")
+        playbutton.setStyleSheet("border-radius: 10px; border: 1px solid #706D6C;")
 
         rightbutton = QPushButton(self)
         rightbutton.setGeometry(460, 550, 50, 40)
         righticon = QIcon("pic/right.png")
         rightbutton.setIcon(righticon)
         rightbutton.clicked.connect(self.rightClicked)
-        rightbutton.setStyleSheet("border-radius: 10px; border: 1px solid ")
+        rightbutton.setStyleSheet("border-radius: 10px; border: 1px solid #706D6C")
 
         confirmbutton = QPushButton(self)
         confirmbutton.setGeometry(720, 590, 100, 50)
@@ -181,13 +178,11 @@ class CustomGraphicsView(QGraphicsView):
             # Scale factor
             zoomInFactor = 1.25
             zoomOutFactor = 1 / zoomInFactor
-
             # Zoom
             if event.angleDelta().y() > 0:
                 zoomFactor = zoomInFactor
             else:
                 zoomFactor = zoomOutFactor
-
             self.scale(zoomFactor, zoomFactor)
 
     def mouseMoveEvent(self, event):

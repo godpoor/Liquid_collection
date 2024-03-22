@@ -32,7 +32,7 @@ if len(sorted_bboxs) > 1:
     print("Filtered Bboxes:", filtered_bboxs)
 
 for x, y, w, h in filtered_bboxs:
-    print("x的值为：", x, "\ty的值为：", y, "\tw的值为：", w, "\th的值为：", h)
+    print("x的值为：", x-5, "\ty的值为：", y-5, "\tw的值为：", w+5, "\th的值为：", h+5)
     contour_image = cv2.rectangle(contour_image, (x-5, y-5), (x + w+5, y + h+5), (255, 0, 0), thickness=2)
 # 将对应的带有框框的图像进行保存
 cv2.imwrite('contours.png', contour_image)
