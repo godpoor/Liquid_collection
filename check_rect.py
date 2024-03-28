@@ -112,6 +112,14 @@ class MyWindow(QMainWindow):
         self.leh.setText("H")  # 设置默认文本
         self.leh.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
+        remarkbutton = QPushButton(self)
+        remarkbutton.setGeometry(450, 600, 60, 30)
+        remarkbutton.setText("remark")
+        remarkbutton.clicked.connect(self.remarkClicked)
+        remarkbutton.setStyleSheet("QPushButton {border-radius: 8px; border: 2px solid #706D6C;}")
+
+
+
         leftbutton = QPushButton(self)
         leftbutton.setGeometry(340, 550, 50, 40)
         lefticon = QIcon("pic/left.png")
@@ -143,7 +151,6 @@ class MyWindow(QMainWindow):
         quitbutton.setGeometry(600, 590, 100, 50)
         quitbutton.setText("quit")
         quitbutton.clicked.connect(QApplication.instance().quit)
-
         quitbutton.setStyleSheet("QPushButton {border-radius: 10px; border: 2px solid #CCCCCC;}")
 
 
@@ -165,6 +172,9 @@ class MyWindow(QMainWindow):
 
     def confirmClicked(self):
         print("confirm")
+
+    def remarkClicked(self):
+        print("remark")
 
 class CustomGraphicsView(QGraphicsView):
     def __init__(self, parent=None):

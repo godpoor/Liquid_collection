@@ -1,1 +1,1 @@
-test 和test1文件是用来： 在test1 中调用test文件中的函数和用法等
+test 和test1文件是用来： 在test1 中调用test文件中的函数和界面，当点击test1中的按钮的时候才会进行显示test文件
