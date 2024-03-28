@@ -29,18 +29,19 @@ if len(sorted_bboxs) > 1:
             max_sum = bbox[2] + bbox[3]
         elif bbox[2] + bbox[3] == max_sum :
             filtered_bboxs.append(bbox)  # 如果当前元素的第三项加上第四项的和等于最大和，则将其加入筛选后的列表中
-    print("Filtered Bboxes:", filtered_bboxs)
-
-for x, y, w, h in filtered_bboxs:
-    print("x的值为：", x-5, "\ty的值为：", y-5, "\tw的值为：", w+5, "\th的值为：", h+5)
-    contour_image = cv2.rectangle(contour_image, (x-5, y-5), (x + w+5, y + h+5), (255, 0, 0), thickness=1)
+with open('data.txt', 'a') as f:
+    f.write(f"x\t\ty\t\tw\t\th\n")
+    for x, y, w, h in filtered_bboxs:
+        print("x的值为：", x-5, "\ty的值为：", y-5, "\tw的值为：", w+5, "\th的值为：", h+5)
+        f.write(f"{x-5}\t\t{y-5}\t\t{w+5}\t\t{h+5}\n")
+        contour_image = cv2.rectangle(contour_image, (x-5, y-5), (x + w+5, y + h+5), (255, 0, 0), thickness=1)
     # # 添加透明度
     # contour_image = cv2.addWeighted(contour_image, 0.9, contour_image, 0.1, 0)
 # 将对应的带有框框的图像进行保存
 cv2.imwrite('contours.png', contour_image)
 
 # 用于显示
-cv2.imshow('Image with Contours', contour_image)
+# cv2.imshow('Image with Contours', contour_image)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
