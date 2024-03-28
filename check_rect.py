@@ -6,10 +6,14 @@ Emial: godpoor@163.com
 import sys
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon, QPixmap, QPainter
-from PyQt6.QtWidgets import QMainWindow, QLabel, QLineEdit, QApplication, QPushButton, QGraphicsView, QWidget,QGraphicsScene
+from PyQt6.QtWidgets import QMainWindow, QLabel, QLineEdit, QApplication, QPushButton, QGraphicsView, QWidget, \
+    QGraphicsScene
 import warnings
+
 # 忽略特定类型的 DeprecationWarning
 warnings.filterwarnings("ignore", category=DeprecationWarning)
+
+
 class MyWindow(QMainWindow):
 
     def __init__(self):
@@ -26,6 +30,7 @@ class MyWindow(QMainWindow):
         # 添加可伸缩涂层画布
         self.widget = QWidget()
         self.setCentralWidget(self.widget)
+
         # 添加QGraphicsView来显示图像
         self.graphicsView = CustomGraphicsView(self.widget)
         self.scene = QGraphicsScene(self)
@@ -33,10 +38,12 @@ class MyWindow(QMainWindow):
         self.scene.addPixmap(self.pixmap)
         self.graphicsView.setScene(self.scene)
         self.graphicsView.setGeometry(10, 10, 830, 500)
+
         # 显示鼠标位置的标签
         self.label = QLabel("Pixel Pos: (0, 0)", self.widget)
         self.label.setGeometry(15, 330, 200, 400)
 
+        # 添加其他控件
         pictlabel = QLabel("Pic：", self)
         pictlabel.setGeometry(650, 520, 70, 50)
         font = pictlabel.font()
@@ -83,33 +90,33 @@ class MyWindow(QMainWindow):
         tollabel.setStyleSheet("color: #555555;")
 
         self.lepic = QLineEdit(self)
-        self.lepic.setGeometry(700, 530, 60, 30)  # 设置大小
-        self.lepic.setStyleSheet("border-radius: 10px;background-color: #D3D3D3")  # 设置背景色
-        self.lepic.setText("pic")  # 设置默认文本
+        self.lepic.setGeometry(700, 530, 60, 30)
+        self.lepic.setStyleSheet("border-radius: 10px;background-color: #D3D3D3")
+        self.lepic.setText("pic")
         self.lepic.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.lex = QLineEdit(self)
-        self.lex.setGeometry(70, 600, 40, 30)  # 设置大小
-        self.lex.setStyleSheet("border-radius: 10px;background-color: #D3D3D3")  # 设置背景色
-        self.lex.setText("X")  # 设置默认文本
+        self.lex.setGeometry(70, 600, 40, 30)
+        self.lex.setStyleSheet("border-radius: 10px;background-color: #D3D3D3")
+        self.lex.setText("X")
         self.lex.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.ley = QLineEdit(self)
-        self.ley.setGeometry(170, 600, 40, 30)  # 设置大小
-        self.ley.setStyleSheet("border-radius: 10px;background-color: #D3D3D3")  # 设置背景色
-        self.ley.setText("Y")  # 设置默认文本
+        self.ley.setGeometry(170, 600, 40, 30)
+        self.ley.setStyleSheet("border-radius: 10px;background-color: #D3D3D3")
+        self.ley.setText("Y")
         self.ley.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.lew = QLineEdit(self)
-        self.lew.setGeometry(270, 600, 40, 30)  # 设置大小
-        self.lew.setStyleSheet("border-radius: 10px;background-color: #D3D3D3")  # 设置背景色
-        self.lew.setText("W")  # 设置默认文本
+        self.lew.setGeometry(270, 600, 40, 30)
+        self.lew.setStyleSheet("border-radius: 10px;background-color: #D3D3D3")
+        self.lew.setText("W")
         self.lew.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.leh = QLineEdit(self)
-        self.leh.setGeometry(380, 600, 40, 30)  # 设置大小
-        self.leh.setStyleSheet("border-radius: 10px;background-color: #D3D3D3")  # 设置背景色
-        self.leh.setText("H")  # 设置默认文本
+        self.leh.setGeometry(380, 600, 40, 30)
+        self.leh.setStyleSheet("border-radius: 10px;background-color: #D3D3D3")
+        self.leh.setText("H")
         self.leh.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         remarkbutton = QPushButton(self)
@@ -117,8 +124,6 @@ class MyWindow(QMainWindow):
         remarkbutton.setText("remark")
         remarkbutton.clicked.connect(self.remarkClicked)
         remarkbutton.setStyleSheet("QPushButton {border-radius: 8px; border: 2px solid #706D6C;}")
-
-
 
         leftbutton = QPushButton(self)
         leftbutton.setGeometry(340, 550, 50, 40)
@@ -153,14 +158,31 @@ class MyWindow(QMainWindow):
         quitbutton.clicked.connect(QApplication.instance().quit)
         quitbutton.setStyleSheet("QPushButton {border-radius: 10px; border: 2px solid #CCCCCC;}")
 
-
+        # 调用zoomToRect函数将画布放大到指定位置
+        self.zoomToRect(914, 835, 14, 14, zoomFactor=0.2)
 
         self.show()
+
     def center(self):
         qr = self.frameGeometry()
         cp = self.screen().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
+
+    #使ROI始终保持在视野中心
+    def zoomToRect(self, x, y, w, h, zoomFactor=0.8):
+        # 计算放大比例
+        scale_x = self.graphicsView.width() / w
+        scale_y = self.graphicsView.height() / h
+        scale = min(scale_x, scale_y) * zoomFactor  # 添加缩放因子
+        # 设置放大比例
+        self.graphicsView.resetTransform()
+        self.graphicsView.scale(scale, scale)
+        # 计算并调整视图中心以使矩形框位于中心
+        rect_center_x = x + w / 1.6
+        rect_center_y = y + h / 1.6
+        self.graphicsView.centerOn(rect_center_x, rect_center_y)
+
     def leftClicked(self):
         print("left")
 
@@ -176,19 +198,17 @@ class MyWindow(QMainWindow):
     def remarkClicked(self):
         print("remark")
 
+
 class CustomGraphicsView(QGraphicsView):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setDragMode(QGraphicsView.DragMode.ScrollHandDrag)  # 设置为拖动模式
+        self.setDragMode(QGraphicsView.DragMode.ScrollHandDrag)
         self.setRenderHint(QPainter.RenderHint.Antialiasing)
 
     def wheelEvent(self, event):
-        # Check if Ctrl key is pressed
         if QApplication.keyboardModifiers() == Qt.KeyboardModifier.ControlModifier:
-            # Scale factor
             zoomInFactor = 1.25
             zoomOutFactor = 1 / zoomInFactor
-            # Zoom
             if event.angleDelta().y() > 0:
                 zoomFactor = zoomInFactor
             else:
@@ -197,12 +217,10 @@ class CustomGraphicsView(QGraphicsView):
 
     def mouseMoveEvent(self, event):
         scenePos = self.mapToScene(event.pos())
-        pixmap = self.scene().items()[0]  # 获取场景中的第一个项（这里是pixmap）
-
+        pixmap = self.scene().items()[0]
         if pixmap.pixmap().rect().contains(event.pos()):
             self.window().label.setText(
                 f"Pixel Pos: ({int(scenePos.x())}, {int(scenePos.y())})")
-
         super().mouseMoveEvent(event)
 
     def mousePressEvent(self, event):
@@ -214,11 +232,13 @@ class CustomGraphicsView(QGraphicsView):
     def mouseReleaseEvent(self, event):
         self.setDragMode(QGraphicsView.DragMode.NoDrag)
         super().mouseReleaseEvent(event)
-def main():
 
+
+def main():
     app = QApplication(sys.argv)
     ex = MyWindow()
     sys.exit(app.exec())
+
 
 if __name__ == '__main__':
     main()
